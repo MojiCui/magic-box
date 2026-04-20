@@ -1,0 +1,3 @@
+include:
+  - project: "o/ci-template"
+    file: "/backend/common.yml"

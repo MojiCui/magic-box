@@ -1,0 +1,51 @@
+{
+	"breaker": null,
+	"client": null,
+	"consumer": null,
+	"credential": {
+		"db": "MYSQL",
+		"enable": false,
+		"systemAccessKey": "",
+		"systemSecretKey": "",
+		"table": "xkit_credential"
+	},
+	"custom": {
+		"enable": true,
+		"key": null,
+		"value": null
+	},
+	"db": null,
+	"general": {
+		"appName": "magic-box",
+		"logLevel": "warn"
+	},
+	"globalTracer": {
+		"driver": "jaeger",
+		"enable": false,
+		"endpoint": "http://localhost:14268/api/traces",
+		"logDBArgs": false,
+		"logRedisArgs": false,
+		"name": "",
+		"samplerParam": 0,
+		"samplerType": "const",
+		"serviceTag": "encs"
+	},
+	"metrics": null,
+	"producer": null,
+	"prometheus": {
+		"enable": false,
+		"pushCustomTag": "encs",
+		"pushGatewayHost": "http://localhost",
+		"pushGatewayPassword": "",
+		"pushGatewayPort": "9091",
+		"pushGatewayUsername": "",
+		"pushIntervalSec": "60"
+	},
+	"redis": null,
+	"retry": null,
+	"server": null,
+	"stage": {
+		"overwriteExcludes": ""
+	},
+	"tracers": null
+}

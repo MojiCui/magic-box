@@ -1,0 +1,38 @@
+components:
+  responses:
+    error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+      description: error
+  schemas:
+    error:
+      properties:
+        code:
+          $ref: '#/components/schemas/error_code'
+        more:
+          allOf:
+          - $ref: '#/components/schemas/error'
+          description: more error
+          nullable: true
+        msg:
+          description: error message
+          type: string
+      required:
+      - code
+      - msg
+    error_code:
+      description: |
+        errors
+          * '40000002' - parameter format error
+      enum:
+      - 40000002
+      type: integer
+      x-enum:
+      - CodeParamFormatError
+info:
+  title: magic-box
+  version: v1
+openapi: 3.0.0
+paths: {}
