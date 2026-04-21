@@ -2,6 +2,7 @@ package srv
 
 import (
 	"context"
+	"runtime/debug"
 
 	"ksogit.kingsoft.net/o/xfx/validator"
 
@@ -19,7 +20,9 @@ func NewHealthCheckService(moduleCtx *ctx.ModuleContext) HealthCheckFunc {
 		out := NewHealthCheckResponse()
 		out.Status = "healthy"
 		out.Message = moduleCtx.Name() + " service is running"
-		out.Version = "dc34006"
+		if info, ok := debug.ReadBuildInfo(); ok {
+			out.Version = info.Main.Version
+		}
 		return &out, nil
 	}
 }
