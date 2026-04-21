@@ -43,7 +43,13 @@
 	},
 	"redis": null,
 	"retry": null,
-	"server": null,
+	"server": [
+		{
+			"addr": ":8080",
+			"enable": true,
+			"name": "PUBLIC"
+		}
+	],
 	"stage": {
 		"overwriteExcludes": ""
 	},

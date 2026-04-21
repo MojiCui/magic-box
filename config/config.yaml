@@ -1,1 +1,4 @@
 example: null
+server:
+  public:
+    listen_addr: :8080

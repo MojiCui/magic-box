@@ -17,6 +17,7 @@ import (
 	"ksogit.kingsoft.net/o/xfx/options"
 
 	_ "magic-box/context"
+	_ "magic-box/endpoints"
 )
 
 var _ = os.Exit

@@ -7,6 +7,47 @@ components:
             $ref: '#/components/schemas/error'
       description: error
   schemas:
+    assistant_item:
+      properties:
+        created_at:
+          description: 创建时间
+          maxLength: 1024
+          type: string
+        description:
+          description: 助手描述
+          maxLength: 1024
+          type: string
+        id:
+          description: 助手唯一标识
+          maxLength: 1024
+          type: string
+        name:
+          description: 助手名称
+          maxLength: 1024
+          type: string
+        updated_at:
+          description: 更新时间
+          maxLength: 1024
+          type: string
+      required:
+      - id
+      - name
+      - description
+      - created_at
+      - updated_at
+    create_assistant_request:
+      properties:
+        description:
+          description: 助手描述
+          maxLength: 1024
+          type: string
+        name:
+          description: 助手名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
     error:
       properties:
         code:
@@ -31,8 +72,174 @@ components:
       type: integer
       x-enum:
       - CodeParamFormatError
+    health_reply:
+      properties:
+        message:
+          description: 状态说明
+          maxLength: 1024
+          type: string
+        status:
+          description: 健康状态
+          maxLength: 1024
+          type: string
+        version:
+          description: 服务版本
+          maxLength: 1024
+          type: string
+      required:
+      - status
+      - message
+      - version
+    list_assistants_reply:
+      properties:
+        items:
+          description: 助手项列表
+          items:
+            $ref: '#/components/schemas/assistant_item'
+          maxItems: 1024
+          type: array
+        total:
+          description: 总数
+          format: int
+          type: integer
+      required:
+      - items
+      - total
+    update_assistant_request:
+      properties:
+        description:
+          description: 助手描述
+          maxLength: 1024
+          type: string
+        name:
+          description: 助手名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
 info:
   title: magic-box
   version: v1
 openapi: 3.0.0
-paths: {}
+paths:
+  /assistants:
+    get:
+      description: '[magic-box] 查询助手列表'
+      operationId: list_assistants
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list_assistants_reply'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询助手列表
+      tags:
+      - assistant
+    post:
+      description: '[magic-box] 创建助手接口'
+      operationId: create_assistant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_assistant_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/assistant_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 创建助手
+      tags:
+      - assistant
+  /assistants/{id}:
+    delete:
+      description: '[magic-box] 删除助手'
+      operationId: delete_assistant
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "204":
+          description: "204"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 删除助手
+      tags:
+      - assistant
+    get:
+      description: '[magic-box] 查询单个助手'
+      operationId: get_assistant
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/assistant_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询助手详情
+      tags:
+      - assistant
+    put:
+      description: '[magic-box] 更新助手信息'
+      operationId: update_assistant
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update_assistant_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/assistant_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 更新助手
+      tags:
+      - assistant
+  /health:
+    get:
+      description: '[magic-box] 服务健康检查接口'
+      operationId: health_check
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/health_reply'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 健康检查
+      tags:
+      - health
