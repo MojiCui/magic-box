@@ -1,0 +1,57 @@
+version "2.0"
+
+schema "assistant_item" {
+  "id": string
+  "name": string
+  "description": string
+  "created_at": string
+  "updated_at": string
+}
+
+schema "create_assistant_request" {
+  "name": string
+  "description": string
+}
+
+schema "update_assistant_request" {
+  "name": string
+  "description": string
+}
+
+schema "list_assistants_reply" {
+  "items": []"assistant_item"
+  "total": int
+}
+
+@name "create_assistant"
+post /assistants
+  . "create_assistant_request"
+  200 "assistant_item"
+;
+
+@name "get_assistant"
+get /assistants/{
+  "id": string
+}
+  200 "assistant_item"
+;
+
+@name "list_assistants"
+get /assistants
+  200 "list_assistants_reply"
+;
+
+@name "update_assistant"
+put /assistants/{
+  "id": string
+}
+  . "update_assistant_request"
+  200 "assistant_item"
+;
+
+@name "delete_assistant"
+delete /assistants/{
+  "id": string
+}
+  204
+;
