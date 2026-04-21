@@ -17,6 +17,9 @@ func NewHealthCheckService(moduleCtx *ctx.ModuleContext) HealthCheckFunc {
 			return nil, err
 		}
 		out := NewHealthCheckResponse()
+		out.Status = "healthy"
+		out.Message = moduleCtx.Name() + " service is running"
+		out.Version = "dc34006"
 		return &out, nil
 	}
 }
