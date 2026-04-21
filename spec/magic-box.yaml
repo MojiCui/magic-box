@@ -48,6 +48,19 @@ components:
       required:
       - name
       - description
+    create_solution_request:
+      properties:
+        description:
+          description: 方案描述
+          maxLength: 1024
+          type: string
+        name:
+          description: 方案名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
     error:
       properties:
         code:
@@ -105,6 +118,49 @@ components:
       required:
       - items
       - total
+    list_solutions_reply:
+      properties:
+        items:
+          description: 方案项列表
+          items:
+            $ref: '#/components/schemas/solution_item'
+          maxItems: 1024
+          type: array
+        total:
+          description: 总数
+          format: int
+          type: integer
+      required:
+      - items
+      - total
+    solution_item:
+      properties:
+        created_at:
+          description: 创建时间
+          maxLength: 1024
+          type: string
+        description:
+          description: 方案描述
+          maxLength: 1024
+          type: string
+        id:
+          description: 方案唯一标识
+          maxLength: 1024
+          type: string
+        name:
+          description: 方案名称
+          maxLength: 1024
+          type: string
+        updated_at:
+          description: 更新时间
+          maxLength: 1024
+          type: string
+      required:
+      - id
+      - name
+      - description
+      - created_at
+      - updated_at
     update_assistant_request:
       properties:
         description:
@@ -113,6 +169,19 @@ components:
           type: string
         name:
           description: 助手名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
+    update_solution_request:
+      properties:
+        description:
+          description: 方案描述
+          maxLength: 1024
+          type: string
+        name:
+          description: 方案名称
           maxLength: 1024
           type: string
       required:
@@ -245,3 +314,109 @@ paths:
       summary: 健康检查
       tags:
       - health
+  /solutions:
+    get:
+      description: '[magic-box] 查询方案列表'
+      operationId: list_solutions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list_solutions_reply'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询方案列表
+      tags:
+      - solution
+    post:
+      description: '[magic-box] 创建方案接口'
+      operationId: create_solution
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_solution_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/solution_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 创建方案
+      tags:
+      - solution
+  /solutions/{solution_id}:
+    get:
+      description: '[magic-box] 查询单个方案'
+      operationId: get_solution
+      parameters:
+      - in: path
+        name: solution_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/solution_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询方案详情
+      tags:
+      - solution
+  /solutions/remove/{solution_id}:
+    post:
+      description: '[magic-box] 删除方案'
+      operationId: delete_solution
+      parameters:
+      - in: path
+        name: solution_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "204":
+          description: "204"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 删除方案
+      tags:
+      - solution
+  /solutions/update/{solution_id}:
+    post:
+      description: '[magic-box] 更新方案信息'
+      operationId: update_solution
+      parameters:
+      - in: path
+        name: solution_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update_solution_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/solution_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 更新方案
+      tags:
+      - solution

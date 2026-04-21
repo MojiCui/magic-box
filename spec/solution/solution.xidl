@@ -1,0 +1,92 @@
+version "2.0"
+
+schema "solution_item" {
+  @desc "方案唯一标识"
+  "id": string
+
+  @desc "方案名称"
+  "name": string
+
+  @desc "方案描述"
+  "description": string
+
+  @desc "创建时间"
+  "created_at": string
+
+  @desc "更新时间"
+  "updated_at": string
+}
+
+schema "create_solution_request" {
+  @desc "方案名称"
+  "name": string
+
+  @desc "方案描述"
+  "description": string
+}
+
+schema "update_solution_request" {
+  @desc "方案名称"
+  "name": string
+
+  @desc "方案描述"
+  "description": string
+}
+
+schema "list_solutions_reply" {
+  @desc "方案项列表"
+  "items": []"solution_item"
+
+  @desc "总数"
+  "total": int
+}
+
+endpoints {
+  @summary "创建方案"
+  @desc "[magic-box] 创建方案接口"
+  @tags {"solution"}
+  @name "create_solution"
+  post /solutions
+    . "create_solution_request"
+    200 "solution_item"
+  ;
+
+  @summary "查询方案详情"
+  @desc "[magic-box] 查询单个方案"
+  @tags {"solution"}
+  @name "get_solution"
+  get /solutions/{
+    "solution_id": string
+  }
+    200 "solution_item"
+  ;
+
+  @summary "查询方案列表"
+  @desc "[magic-box] 查询方案列表"
+  @tags {"solution"}
+  @name "list_solutions"
+  get /solutions
+    200 "list_solutions_reply"
+  ;
+
+  @summary "更新方案"
+  @desc "[magic-box] 更新方案信息"
+  @tags {"solution"}
+  @name "update_solution"
+  post /solutions/update/{
+    "solution_id": string
+  }
+    . "update_solution_request"
+    200 "solution_item"
+  ;
+
+  @summary "删除方案"
+  @desc "[magic-box] 删除方案"
+  @tags {"solution"}
+  @name "delete_solution"
+  post /solutions/remove/{
+    "solution_id": string
+  }
+    204
+  ;
+}

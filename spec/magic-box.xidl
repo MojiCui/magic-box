@@ -4,4 +4,5 @@ include {
   "common.xidl"
   "health/common.xidl"
   "assistant/common.xidl"
+  "solution/common.xidl"
 }
