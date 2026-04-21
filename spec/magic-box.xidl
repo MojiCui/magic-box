@@ -5,4 +5,5 @@ include {
   "health/common.xidl"
   "assistant/common.xidl"
   "solution/common.xidl"
+  "ai/common.xidl"
 }

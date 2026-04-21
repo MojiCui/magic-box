@@ -1,0 +1,92 @@
+version "2.0"
+
+schema "ai_item" {
+  @desc "AI唯一标识"
+  "id": string
+
+  @desc "AI名称"
+  "name": string
+
+  @desc "AI描述"
+  "description": string
+
+  @desc "创建时间"
+  "created_at": string
+
+  @desc "更新时间"
+  "updated_at": string
+}
+
+schema "create_ai_request" {
+  @desc "AI名称"
+  "name": string
+
+  @desc "AI描述"
+  "description": string
+}
+
+schema "update_ai_request" {
+  @desc "AI名称"
+  "name": string
+
+  @desc "AI描述"
+  "description": string
+}
+
+schema "list_ais_reply" {
+  @desc "AI项列表"
+  "items": []"ai_item"
+
+  @desc "总数"
+  "total": int
+}
+
+endpoints {
+  @summary "创建AI"
+  @desc "[magic-box] 创建AI接口"
+  @tags {"ai"}
+  @name "create_ai"
+  post /ais
+    . "create_ai_request"
+    200 "ai_item"
+  ;
+
+  @summary "查询AI详情"
+  @desc "[magic-box] 查询单个AI"
+  @tags {"ai"}
+  @name "get_ai"
+  get /ais/{
+    "ai_id": string
+  }
+    200 "ai_item"
+  ;
+
+  @summary "查询AI列表"
+  @desc "[magic-box] 查询AI列表"
+  @tags {"ai"}
+  @name "list_ais"
+  get /ais
+    200 "list_ais_reply"
+  ;
+
+  @summary "更新AI"
+  @desc "[magic-box] 更新AI信息"
+  @tags {"ai"}
+  @name "update_ai"
+  post /ais/update/{
+    "ai_id": string
+  }
+    . "update_ai_request"
+    200 "ai_item"
+  ;
+
+  @summary "删除AI"
+  @desc "[magic-box] 删除AI"
+  @tags {"ai"}
+  @name "delete_ai"
+  post /ais/remove/{
+    "ai_id": string
+  }
+    204
+  ;
+}

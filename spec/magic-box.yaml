@@ -7,6 +7,34 @@ components:
             $ref: '#/components/schemas/error'
       description: error
   schemas:
+    ai_item:
+      properties:
+        created_at:
+          description: 创建时间
+          maxLength: 1024
+          type: string
+        description:
+          description: AI描述
+          maxLength: 1024
+          type: string
+        id:
+          description: AI唯一标识
+          maxLength: 1024
+          type: string
+        name:
+          description: AI名称
+          maxLength: 1024
+          type: string
+        updated_at:
+          description: 更新时间
+          maxLength: 1024
+          type: string
+      required:
+      - id
+      - name
+      - description
+      - created_at
+      - updated_at
     assistant_item:
       properties:
         created_at:
@@ -35,6 +63,19 @@ components:
       - description
       - created_at
       - updated_at
+    create_ai_request:
+      properties:
+        description:
+          description: AI描述
+          maxLength: 1024
+          type: string
+        name:
+          description: AI名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
     create_assistant_request:
       properties:
         description:
@@ -103,6 +144,21 @@ components:
       - status
       - message
       - version
+    list_ais_reply:
+      properties:
+        items:
+          description: AI项列表
+          items:
+            $ref: '#/components/schemas/ai_item'
+          maxItems: 1024
+          type: array
+        total:
+          description: 总数
+          format: int
+          type: integer
+      required:
+      - items
+      - total
     list_assistants_reply:
       properties:
         items:
@@ -161,6 +217,19 @@ components:
       - description
       - created_at
       - updated_at
+    update_ai_request:
+      properties:
+        description:
+          description: AI描述
+          maxLength: 1024
+          type: string
+        name:
+          description: AI名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
     update_assistant_request:
       properties:
         description:
@@ -192,6 +261,112 @@ info:
   version: v1
 openapi: 3.0.0
 paths:
+  /ais:
+    get:
+      description: '[magic-box] 查询AI列表'
+      operationId: list_ais
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list_ais_reply'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询AI列表
+      tags:
+      - ai
+    post:
+      description: '[magic-box] 创建AI接口'
+      operationId: create_ai
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_ai_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ai_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 创建AI
+      tags:
+      - ai
+  /ais/{ai_id}:
+    get:
+      description: '[magic-box] 查询单个AI'
+      operationId: get_ai
+      parameters:
+      - in: path
+        name: ai_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ai_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询AI详情
+      tags:
+      - ai
+  /ais/remove/{ai_id}:
+    post:
+      description: '[magic-box] 删除AI'
+      operationId: delete_ai
+      parameters:
+      - in: path
+        name: ai_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "204":
+          description: "204"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 删除AI
+      tags:
+      - ai
+  /ais/update/{ai_id}:
+    post:
+      description: '[magic-box] 更新AI信息'
+      operationId: update_ai
+      parameters:
+      - in: path
+        name: ai_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update_ai_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ai_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 更新AI
+      tags:
+      - ai
   /assistants:
     get:
       description: '[magic-box] 查询助手列表'
