@@ -56,7 +56,7 @@ endpoints {
   @tags {"assistant"}
   @name "get_assistant"
   get /assistants/{
-    "id": string
+    "assistant_id": string
   }
     200 "assistant_item"
   ;
@@ -73,8 +73,8 @@ endpoints {
   @desc "[magic-box] 更新助手信息"
   @tags {"assistant"}
   @name "update_assistant"
-  put /assistants/{
-    "id": string
+  post /assistants/update/{
+    "assistant_id": string
   }
     . "update_assistant_request"
     200 "assistant_item"
@@ -84,8 +84,8 @@ endpoints {
   @desc "[magic-box] 删除助手"
   @tags {"assistant"}
   @name "delete_assistant"
-  delete /assistants/{
-    "id": string
+  post /assistants/remove/{
+    "assistant_id": string
   }
     204
   ;

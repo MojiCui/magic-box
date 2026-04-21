@@ -2,6 +2,6 @@ version "2.0"
 
 include {
   "common.xidl"
-  "health.xidl"
-  "assistant.xidl"
+  "health/common.xidl"
+  "assistant/common.xidl"
 }

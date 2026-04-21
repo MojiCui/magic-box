@@ -19,7 +19,7 @@ var _ schemas.Error
 var _ = time.Parse
 
 type DeleteAssistantRequest struct {
-	Id string `json:"-" path:"id,required" validate:"max=1024"`
+	AssistantId string `json:"-" path:"assistant_id,required" validate:"max=1024"`
 }
 
 func NewDeleteAssistantRequest() *DeleteAssistantRequest {
@@ -28,7 +28,7 @@ func NewDeleteAssistantRequest() *DeleteAssistantRequest {
 }
 
 func (r *DeleteAssistantRequest) EscapeStrings() {
-	r.Id = html.EscapeString(r.Id)
+	r.AssistantId = html.EscapeString(r.AssistantId)
 }
 
 type DeleteAssistantFunc func(context.Context, *DeleteAssistantRequest) error

@@ -19,7 +19,7 @@ var _ schemas.Error
 var _ = time.Parse
 
 type GetAssistantRequest struct {
-	Id string `json:"-" path:"id,required" validate:"max=1024"`
+	AssistantId string `json:"-" path:"assistant_id,required" validate:"max=1024"`
 }
 
 func NewGetAssistantRequest() *GetAssistantRequest {
@@ -28,7 +28,7 @@ func NewGetAssistantRequest() *GetAssistantRequest {
 }
 
 func (r *GetAssistantRequest) EscapeStrings() {
-	r.Id = html.EscapeString(r.Id)
+	r.AssistantId = html.EscapeString(r.AssistantId)
 }
 
 type GetAssistantResponse = schemas.AssistantItem

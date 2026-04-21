@@ -159,31 +159,13 @@ paths:
       summary: 创建助手
       tags:
       - assistant
-  /assistants/{id}:
-    delete:
-      description: '[magic-box] 删除助手'
-      operationId: delete_assistant
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          maxLength: 1024
-          type: string
-      responses:
-        "204":
-          description: "204"
-        default:
-          $ref: '#/components/responses/error'
-      summary: 删除助手
-      tags:
-      - assistant
+  /assistants/{assistant_id}:
     get:
       description: '[magic-box] 查询单个助手'
       operationId: get_assistant
       parameters:
       - in: path
-        name: id
+        name: assistant_id
         required: true
         schema:
           maxLength: 1024
@@ -200,12 +182,32 @@ paths:
       summary: 查询助手详情
       tags:
       - assistant
-    put:
+  /assistants/remove/{assistant_id}:
+    post:
+      description: '[magic-box] 删除助手'
+      operationId: delete_assistant
+      parameters:
+      - in: path
+        name: assistant_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "204":
+          description: "204"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 删除助手
+      tags:
+      - assistant
+  /assistants/update/{assistant_id}:
+    post:
       description: '[magic-box] 更新助手信息'
       operationId: update_assistant
       parameters:
       - in: path
-        name: id
+        name: assistant_id
         required: true
         schema:
           maxLength: 1024

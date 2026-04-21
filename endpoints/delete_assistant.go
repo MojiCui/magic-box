@@ -27,11 +27,11 @@ func (h *DeleteAssistant) Name() string {
 }
 
 func (h *DeleteAssistant) Method() string {
-	return "DELETE"
+	return "POST"
 }
 
 func (h *DeleteAssistant) URL() string {
-	return "/assistants/{id}"
+	return "/assistants/remove/{assistant_id}"
 }
 
 func parseDeleteAssistantRequest(w http.ResponseWriter, r *http.Request) (*srv.DeleteAssistantRequest, error) {

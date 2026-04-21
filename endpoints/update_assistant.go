@@ -27,11 +27,11 @@ func (h *UpdateAssistant) Name() string {
 }
 
 func (h *UpdateAssistant) Method() string {
-	return "PUT"
+	return "POST"
 }
 
 func (h *UpdateAssistant) URL() string {
-	return "/assistants/{id}"
+	return "/assistants/update/{assistant_id}"
 }
 
 func parseUpdateAssistantRequest(w http.ResponseWriter, r *http.Request) (*srv.UpdateAssistantRequest, error) {

@@ -31,7 +31,7 @@ func (h *GetAssistant) Method() string {
 }
 
 func (h *GetAssistant) URL() string {
-	return "/assistants/{id}"
+	return "/assistants/{assistant_id}"
 }
 
 func parseGetAssistantRequest(w http.ResponseWriter, r *http.Request) (*srv.GetAssistantRequest, error) {

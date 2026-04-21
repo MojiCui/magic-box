@@ -18,7 +18,7 @@ func NewUpdateAssistantService(moduleCtx *ctx.ModuleContext) UpdateAssistantFunc
 			return nil, err
 		}
 		out := NewUpdateAssistantResponse()
-		out.Id = request.Id
+		out.Id = request.AssistantId
 		out.Name = request.Name
 		out.Description = request.Description
 		now := time.Now().Format(time.RFC3339)
