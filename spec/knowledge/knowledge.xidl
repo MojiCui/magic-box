@@ -1,0 +1,92 @@
+version "2.0"
+
+schema "knowledge_item" {
+  @desc "知识唯一标识"
+  "id": string
+
+  @desc "知识名称"
+  "name": string
+
+  @desc "知识描述"
+  "description": string
+
+  @desc "创建时间"
+  "created_at": string
+
+  @desc "更新时间"
+  "updated_at": string
+}
+
+schema "create_knowledge_request" {
+  @desc "知识名称"
+  "name": string
+
+  @desc "知识描述"
+  "description": string
+}
+
+schema "update_knowledge_request" {
+  @desc "知识名称"
+  "name": string
+
+  @desc "知识描述"
+  "description": string
+}
+
+schema "list_knowledges_reply" {
+  @desc "知识项列表"
+  "items": []"knowledge_item"
+
+  @desc "总数"
+  "total": int
+}
+
+endpoints {
+  @summary "创建知识"
+  @desc "[magic-box] 创建知识接口"
+  @tags {"knowledge"}
+  @name "create_knowledge"
+  post /knowledges
+    . "create_knowledge_request"
+    200 "knowledge_item"
+  ;
+
+  @summary "查询知识详情"
+  @desc "[magic-box] 查询单个知识"
+  @tags {"knowledge"}
+  @name "get_knowledge"
+  get /knowledges/{
+    "knowledge_id": string
+  }
+    200 "knowledge_item"
+  ;
+
+  @summary "查询知识列表"
+  @desc "[magic-box] 查询知识列表"
+  @tags {"knowledge"}
+  @name "list_knowledges"
+  get /knowledges
+    200 "list_knowledges_reply"
+  ;
+
+  @summary "更新知识"
+  @desc "[magic-box] 更新知识信息"
+  @tags {"knowledge"}
+  @name "update_knowledge"
+  post /knowledges/update/{
+    "knowledge_id": string
+  }
+    . "update_knowledge_request"
+    200 "knowledge_item"
+  ;
+
+  @summary "删除知识"
+  @desc "[magic-box] 删除知识"
+  @tags {"knowledge"}
+  @name "delete_knowledge"
+  post /knowledges/remove/{
+    "knowledge_id": string
+  }
+    204
+  ;
+}

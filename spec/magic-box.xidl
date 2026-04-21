@@ -6,4 +6,5 @@ include {
   "assistant/common.xidl"
   "solution/common.xidl"
   "ai/common.xidl"
+  "knowledge/common.xidl"
 }

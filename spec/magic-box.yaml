@@ -89,6 +89,19 @@ components:
       required:
       - name
       - description
+    create_knowledge_request:
+      properties:
+        description:
+          description: 知识描述
+          maxLength: 1024
+          type: string
+        name:
+          description: 知识名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
     create_solution_request:
       properties:
         description:
@@ -144,6 +157,34 @@ components:
       - status
       - message
       - version
+    knowledge_item:
+      properties:
+        created_at:
+          description: 创建时间
+          maxLength: 1024
+          type: string
+        description:
+          description: 知识描述
+          maxLength: 1024
+          type: string
+        id:
+          description: 知识唯一标识
+          maxLength: 1024
+          type: string
+        name:
+          description: 知识名称
+          maxLength: 1024
+          type: string
+        updated_at:
+          description: 更新时间
+          maxLength: 1024
+          type: string
+      required:
+      - id
+      - name
+      - description
+      - created_at
+      - updated_at
     list_ais_reply:
       properties:
         items:
@@ -165,6 +206,21 @@ components:
           description: 助手项列表
           items:
             $ref: '#/components/schemas/assistant_item'
+          maxItems: 1024
+          type: array
+        total:
+          description: 总数
+          format: int
+          type: integer
+      required:
+      - items
+      - total
+    list_knowledges_reply:
+      properties:
+        items:
+          description: 知识项列表
+          items:
+            $ref: '#/components/schemas/knowledge_item'
           maxItems: 1024
           type: array
         total:
@@ -238,6 +294,19 @@ components:
           type: string
         name:
           description: 助手名称
+          maxLength: 1024
+          type: string
+      required:
+      - name
+      - description
+    update_knowledge_request:
+      properties:
+        description:
+          description: 知识描述
+          maxLength: 1024
+          type: string
+        name:
+          description: 知识名称
           maxLength: 1024
           type: string
       required:
@@ -489,6 +558,112 @@ paths:
       summary: 健康检查
       tags:
       - health
+  /knowledges:
+    get:
+      description: '[magic-box] 查询知识列表'
+      operationId: list_knowledges
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list_knowledges_reply'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询知识列表
+      tags:
+      - knowledge
+    post:
+      description: '[magic-box] 创建知识接口'
+      operationId: create_knowledge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_knowledge_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/knowledge_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 创建知识
+      tags:
+      - knowledge
+  /knowledges/{knowledge_id}:
+    get:
+      description: '[magic-box] 查询单个知识'
+      operationId: get_knowledge
+      parameters:
+      - in: path
+        name: knowledge_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/knowledge_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 查询知识详情
+      tags:
+      - knowledge
+  /knowledges/remove/{knowledge_id}:
+    post:
+      description: '[magic-box] 删除知识'
+      operationId: delete_knowledge
+      parameters:
+      - in: path
+        name: knowledge_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      responses:
+        "204":
+          description: "204"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 删除知识
+      tags:
+      - knowledge
+  /knowledges/update/{knowledge_id}:
+    post:
+      description: '[magic-box] 更新知识信息'
+      operationId: update_knowledge
+      parameters:
+      - in: path
+        name: knowledge_id
+        required: true
+        schema:
+          maxLength: 1024
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update_knowledge_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/knowledge_item'
+          description: "200"
+        default:
+          $ref: '#/components/responses/error'
+      summary: 更新知识
+      tags:
+      - knowledge
   /solutions:
     get:
       description: '[magic-box] 查询方案列表'
