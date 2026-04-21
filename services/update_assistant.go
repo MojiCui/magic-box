@@ -2,6 +2,7 @@ package srv
 
 import (
 	"context"
+	"time"
 
 	"ksogit.kingsoft.net/o/xfx/validator"
 
@@ -17,6 +18,12 @@ func NewUpdateAssistantService(moduleCtx *ctx.ModuleContext) UpdateAssistantFunc
 			return nil, err
 		}
 		out := NewUpdateAssistantResponse()
+		out.Id = request.Id
+		out.Name = request.Name
+		out.Description = request.Description
+		now := time.Now().Format(time.RFC3339)
+		out.CreatedAt = now
+		out.UpdatedAt = now
 		return &out, nil
 	}
 }
