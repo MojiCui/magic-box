@@ -1,0 +1,16 @@
+version "2.0"
+
+include {
+  "common.xidl"
+}
+
+schema health_reply {
+  "status": string
+  "message": string
+  "version": string
+}
+
+@name "health_check"
+get /health
+  200 health_reply
+;
