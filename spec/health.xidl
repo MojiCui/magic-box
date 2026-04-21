@@ -1,16 +1,22 @@
 version "2.0"
 
-include {
-  "common.xidl"
-}
-
 schema health_reply {
+  @desc "健康状态"
   "status": string
+
+  @desc "状态说明"
   "message": string
+
+  @desc "服务版本"
   "version": string
 }
 
-@name "health_check"
-get /health
-  200 health_reply
-;
+endpoints {
+  @summary "健康检查"
+  @desc "[magic-box] 服务健康检查接口"
+  @tags {"health"}
+  @name "health_check"
+  get /health
+    200 health_reply
+  ;
+}
