@@ -1,57 +1,92 @@
 version "2.0"
 
 schema "assistant_item" {
+  @desc "助手唯一标识"
   "id": string
+
+  @desc "助手名称"
   "name": string
+
+  @desc "助手描述"
   "description": string
+
+  @desc "创建时间"
   "created_at": string
+
+  @desc "更新时间"
   "updated_at": string
 }
 
 schema "create_assistant_request" {
+  @desc "助手名称"
   "name": string
+
+  @desc "助手描述"
   "description": string
 }
 
 schema "update_assistant_request" {
+  @desc "助手名称"
   "name": string
+
+  @desc "助手描述"
   "description": string
 }
 
 schema "list_assistants_reply" {
+  @desc "助手项列表"
   "items": []"assistant_item"
+
+  @desc "总数"
   "total": int
 }
 
-@name "create_assistant"
-post /assistants
-  . "create_assistant_request"
-  200 "assistant_item"
-;
+endpoints {
+  @summary "创建助手"
+  @desc "[magic-box] 创建助手接口"
+  @tags {"assistant"}
+  @name "create_assistant"
+  post /assistants
+    . "create_assistant_request"
+    200 "assistant_item"
+  ;
 
-@name "get_assistant"
-get /assistants/{
-  "id": string
+  @summary "查询助手详情"
+  @desc "[magic-box] 查询单个助手"
+  @tags {"assistant"}
+  @name "get_assistant"
+  get /assistants/{
+    "id": string
+  }
+    200 "assistant_item"
+  ;
+
+  @summary "查询助手列表"
+  @desc "[magic-box] 查询助手列表"
+  @tags {"assistant"}
+  @name "list_assistants"
+  get /assistants
+    200 "list_assistants_reply"
+  ;
+
+  @summary "更新助手"
+  @desc "[magic-box] 更新助手信息"
+  @tags {"assistant"}
+  @name "update_assistant"
+  put /assistants/{
+    "id": string
+  }
+    . "update_assistant_request"
+    200 "assistant_item"
+  ;
+
+  @summary "删除助手"
+  @desc "[magic-box] 删除助手"
+  @tags {"assistant"}
+  @name "delete_assistant"
+  delete /assistants/{
+    "id": string
+  }
+    204
+  ;
 }
-  200 "assistant_item"
-;
-
-@name "list_assistants"
-get /assistants
-  200 "list_assistants_reply"
-;
-
-@name "update_assistant"
-put /assistants/{
-  "id": string
-}
-  . "update_assistant_request"
-  200 "assistant_item"
-;
-
-@name "delete_assistant"
-delete /assistants/{
-  "id": string
-}
-  204
-;
